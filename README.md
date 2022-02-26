@@ -57,6 +57,7 @@ namespace YOUR_PROGRAM
 These cursor files are specific to MY computer by the way.<br/>
 (Just to let you know.)<br/>
 ![](working-proof-of-code.jpeg)
+![](working-proof-of-code-2.jpeg)
 
 ### Download
 [Standalone](https://github.com/Lexz-08/RegistryCursors/releases/download/registry-cursors/RegistryCursors.dll)
