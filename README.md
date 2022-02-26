@@ -38,6 +38,8 @@ namespace YOUR_PROGRAM
 }
 
 // if Console
+using System;
+
 namespace YOUR_PROGRAM
 {
     public static class Program
