@@ -1,5 +1,8 @@
 ﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 public static class RegistryCursor
 {
@@ -26,23 +29,26 @@ public static class RegistryCursor
 		{ "Person Select",         new RegCursor("Person",      cursorRegKey.GetValue("Person").ToString())       },
 	};
 
-	public const string Normal = "Normal Select",
-		Help = "Help Select",
-		WrkInBgnd = "Working In Background",
-		Busy = "Busy",
-		Precision = "Precision Select",
-		Text = "Text Select",
-		Pen = "Handwriting",
-		Unvlble = "Unavailable",
-		VertRez = "Vertical Resize",
-		HorzRez = "Horizontal Resize",
-		Dgnl1 = "Diagonal Resize 1",
-		Dgnl2 = "Diagonal Resize 2",
-		Move = "Move",
-		Alt = "Alternate Select",
-		Link = "Link Select",
-		Pin = "Location Select",
-		Person = "Person Select";
+	public enum CursorType
+	{
+		Normal_Select,
+		Help_Select,
+		Working_In_Background,
+		Busy,
+		Precision_Select,
+		Text_Select,
+		Handwriting,
+		Unavailable,
+		Vertical_Resize,
+		Horizontal_Resize,
+		Diagonal_Resize_1,
+		Diagonal_Resize_2,
+		Move,
+		Alternate_Select,
+		Link_Select,
+		Location_Select,
+		Person_Select,
+	}
 
 	/// <summary>
 	/// The name of the current cursor scheme of the current user.
@@ -52,7 +58,36 @@ public static class RegistryCursor
 	/// <summary>
 	/// The file path to the selected cursor in the cursor scheme.
 	/// </summary>
-	/// <param name="CursorName">The cursor to access</param>
+	/// <param name="CursorType">The cursor to access</param>
 	/// <returns>The selected cursor's file path</returns>
-	public static string GetCursorPath(string CursorName) => cursors[CursorName].Path;
+	public static string GetCursorPath(CursorType CursorType)
+	{
+		string curType1 = CursorType.ToString();
+		string curType2 = curType1.Replace('_', ' ');
+
+		return cursors[curType2].Path;
+	}
+
+	[DllImport("user32.dll")]
+	private static extern IntPtr LoadCursorFromFile(string FileName);
+
+	/// <summary>
+	/// Loads the given cursor file into a new <see cref="Cursor"/> object with any color included in the file
+	/// </summary>
+	/// <param name="CursorFile">The cursor file to load</param>
+	/// <returns>The cursor with any included color from the file</returns>
+	public static Cursor LoadFromPath(string CursorFile)
+	{
+		try
+		{
+			IntPtr cursorHandle = LoadCursorFromFile(CursorFile);
+			Cursor newCursor = new Cursor(cursorHandle);
+
+			return newCursor;
+		}
+		catch
+		{
+			return Cursors.Arrow;
+		}
+	}
 }
