@@ -11,7 +11,7 @@ Gets the file paths to the cursors currently used by the system's current user.
 string cursorPath_Link = RegistryCursor.GetCursorPath(RegistryCursor.CursorType.Link_Select);
 
 // if Console
-Console.WriteLine(cursorPath_Normal);
+Console.WriteLine(cursorPath_Link);
 
 // if WinForms
 // 'Text' being the 'Text property' of the current window
