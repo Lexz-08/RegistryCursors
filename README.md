@@ -8,14 +8,16 @@ Gets the file paths to the cursors currently used by the system's current user.
 // also don't worry about 'using' statements
 // it's all at the 'root'
 
-string cursorPath_Normal = RegistryCursor.GetCursorPath(RegistryCursor.Normal);
+string cursorPath_Link = RegistryCursor.GetCursorPath(RegistryCursor.CursorType.Link_Select);
 
 // if Console
 Console.WriteLine(cursorPath_Normal);
 
 // if WinForms
 // 'Text' being the 'Text property' of the current window
-Text = cursorPath_Normal;
+// 'Cursor' being the 'Cursor property' of the current window
+Text = cursorPath_Link;
+Cursor = RegistryCursor.LoadFromPath(cursorPath_Link);
 ```
 ```csharp
 // this is the actual code you should have for your basic program
@@ -31,8 +33,12 @@ namespace YOUR_PROGRAM
         {
             InitializeComponent();
             
-            string cursorPath_Normal = RegistryCursor.GetCursorPath(RegistryCursor.Normal);
-            Text = cursorPath_Normal;
+            // get the cursor path into a string
+            string cursorPath_Link = RegistryCursor.GetCursorPath(RegistryCursor.CursorType.Link_Select);
+            Text = cursorPath_Link;
+            
+            // just returns Cursors.Arrow if no cursor is found or loaded
+            Cursor = RegistryCursor.LoadFromPath(cursorPath_Link);
         }
     }
 }
